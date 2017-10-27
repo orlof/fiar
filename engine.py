@@ -1,4 +1,5 @@
-from player import Player
+from RandomPlayer import RandomPlayer
+from TerminalPlayer import TerminalPlayer
 
 
 EVEN = "x"
@@ -29,7 +30,16 @@ class Board(object):
                 self.__cells.append(Cell(x, y))
 
     def get_board(self):
-        return [cell.mark for cell in self.__cells]
+        return "".join([cell.mark for cell in self.__cells])
+
+    def _find_cell(self, x, y):
+        for cell in self.__cells:
+            if cell.x == x and cell.y == y:
+                return cell
+
+    def update(self, move, mark):
+        cell = self._find_cell(move[0], move[1])
+        cell.mark = mark
 
     def __str__(self):
         printout = ""
@@ -65,12 +75,13 @@ class Engine(object):
         while self.__running:
             print self.__board
             player, mark = self._get_player()
-            player.get_next_move(self.__board, mark)
+            move = player.get_next_move(self.__board.get_board(), mark)
+            self.__board.update(move, mark)
 
 
 def main():
-    player1 = Player()
-    player2 = Player()
+    player1 = TerminalPlayer()
+    player2 = RandomPlayer()
     engine = Engine(player1, player2)
     engine.run()
 

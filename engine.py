@@ -41,7 +41,7 @@ class Engine(object):
 
 
 def main():
-    player1 = TerminalPlayer()
+    player1 = RandomPlayer()
     player2 = RandomPlayer()
     engine = Engine(player1, player2)
     engine.run()

@@ -2,22 +2,15 @@ X_DIMENSION = 15
 Y_DIMENSION = 15
 
 
-def print_x_column(cell):
+def print_y_column(cell):
     if cell.x == 0:
         return "|"
     return ""
 
 
-def print_y_column():
-    printout = ""
-    for x in range(X_DIMENSION * 2):
-        printout += "-"
-    return printout
-
-
 def print_line_change(cell):
     if cell.x == 14:
-        return "\n"
+        return "|\n"
     else:
         return " "
 
@@ -73,8 +66,7 @@ class Board(object):
     def __str__(self):
         printout = ""
         for cell in self.__cells:
-            printout += print_x_column(cell)
+            printout += print_y_column(cell)
             printout += cell.symbol
             printout += print_line_change(cell)
-        print_y_column()
         return printout

@@ -28,11 +28,15 @@ class Engine(object):
     def run(self):
         print "Starting"
         self.__running = True
+        print self.__board
         while self.__running:
+            player, symbol = self._get_player()
+            move = player.get_next_move(symbol, self.__board.get_board())
+            self.__board.update(move, symbol)
             print self.__board
-            player, mark = self._get_player()
-            move = player.get_next_move(mark, self.__board.get_board())
-            self.__board.update(move, mark)
+            if self.__board.check_win_conditions(symbol):
+                print "Winner: %s at round: %d" % (symbol, self.__round)
+                self.__running = False
             self.__round += 1
 
 

@@ -3,10 +3,10 @@ import unittest
 from RandomPlayer import RandomPlayer
 
 SYMBOL = "X"
-BOARD_EMPTY = list((15*15) * " ")
+BOARD_EMPTY = list((15*15) * "-")
 BOARD_FULL = list((15*15) * SYMBOL)
 
-class TestRandomPlay(unittest.TestCase):
+class TestRandomPlayer(unittest.TestCase):
     def setUp(self):
         self.player = RandomPlayer()
 

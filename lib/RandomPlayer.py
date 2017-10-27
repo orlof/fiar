@@ -13,7 +13,7 @@ class RandomPlayer(object):
         free_positions = []
         for y in xrange(15):
             for x in xrange(15):
-                if board[15*y+x] == ' ':
+                if board[15*y+x] == '-':
                     free_positions.append((x, y))
 
         return free_positions

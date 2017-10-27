@@ -31,8 +31,9 @@ class Engine(object):
         while self.__running:
             print self.__board
             player, mark = self._get_player()
-            move = player.get_next_move(self.__board.get_board(), mark)
+            move = player.get_next_move(mark, self.__board.get_board())
             self.__board.update(move, mark)
+            self.__round += 1
 
 
 def main():

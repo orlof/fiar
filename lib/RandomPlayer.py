@@ -1,5 +1,6 @@
 import random
 
+SYMBOLS = "XO"
 
 class RandomPlayer(object):
     def get_move(self, player, board):
@@ -13,7 +14,7 @@ class RandomPlayer(object):
         free_positions = []
         for y in xrange(15):
             for x in xrange(15):
-                if board[15*y+x] == '-':
+                if board[15*y+x] not in SYMBOLS:
                     free_positions.append((x, y))
 
         return free_positions

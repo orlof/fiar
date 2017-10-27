@@ -3,7 +3,7 @@ import unittest
 from TerminalPlayer import TerminalPlayer
 
 SYMBOL = "X"
-BOARD_EMPTY = list((15*15) * "-")
+BOARD_EMPTY = list((15*15) * " ")
 BOARD_FULL = list((15*15) * SYMBOL)
 
 class TestTerminalPlayer(unittest.TestCase):

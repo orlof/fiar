@@ -6,6 +6,7 @@ SYMBOL = "X"
 BOARD_EMPTY = list((15*15) * " ")
 BOARD_FULL = list((15*15) * SYMBOL)
 
+
 class TestTerminalPlayer(unittest.TestCase):
     def setUp(self):
         self.player = TerminalPlayer()
@@ -14,7 +15,7 @@ class TestTerminalPlayer(unittest.TestCase):
         self.player = None
 
     def test_parse_coord(self):
-        self.assertEqual(self.player.parse_pos(" 1  , 2 "),(1,2))
+        self.assertEqual(self.player.parse_pos(" 1  , 2 "), (1, 2))
 
     def test_parse_text(self):
         self.assertEqual(self.player.parse_pos("xyz"), None)

@@ -1,4 +1,4 @@
-from RandomPlayer import SYMBOLS
+from player import SYMBOLS
 
 
 class Board(object):

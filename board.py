@@ -2,6 +2,26 @@ X_DIMENSION = 15
 Y_DIMENSION = 15
 
 
+def print_x_column(cell):
+    if cell.x == 0:
+        return "|"
+    return ""
+
+
+def print_y_column():
+    printout = ""
+    for x in range(X_DIMENSION * 2):
+        printout += "-"
+    return printout
+
+
+def print_line_change(cell):
+    if cell.x == 14:
+        return "\n"
+    else:
+        return " "
+
+
 class Cell(object):
     def __init__(self, x, y):
         self.x = x
@@ -27,22 +47,15 @@ class Board(object):
             if cell.x == x and cell.y == y:
                 return cell
 
-    def update(self, move, mark):
-        cell = self._find_cell(move[0], move[1])
+    def update(self, coordinate, mark):
+        cell = self._find_cell(coordinate[0], coordinate[1])
         cell.mark = mark
 
     def __str__(self):
         printout = ""
         for cell in self.__cells:
-            if cell.x == 0:
-                printout += "|"
+            printout += print_x_column(cell)
             printout += cell.mark
-            if cell.x == 14:
-                printout += "\n"
-            else:
-                printout += " "
-        for x in range(X_DIMENSION * 2):
-            printout += "-"
+            printout += print_line_change(cell)
+        print_y_column()
         return printout
-
-

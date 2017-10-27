@@ -10,7 +10,7 @@ class Board(object):
                 symbol = board[15*y+x]
                 if symbol in SYMBOLS:
                     if (self.check(board, symbol, x, y, 0, -1) or self.check(board, symbol, x, y, 1, -1) or
-                        self.check(board, symbol, x, y, 0,  1) or self.check(board, symbol, x, y, 0,  1)):
+                        self.check(board, symbol, x, y, 1,  0) or self.check(board, symbol, x, y, 1,  1)):
                         return symbol
 
         return None

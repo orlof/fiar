@@ -1,5 +1,4 @@
-from RandomPlayer import RandomPlayer
-from TerminalPlayer import TerminalPlayer
+from player_random import RandomPlayer
 
 from board import Board
 

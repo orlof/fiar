@@ -1,7 +1,7 @@
 import unittest
 
 from board import Board
-from RandomPlayer import RandomPlayer
+from player_random import RandomPlayer
 
 SYMBOL = "X"
 

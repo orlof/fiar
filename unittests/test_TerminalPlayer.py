@@ -1,6 +1,6 @@
 import unittest
 
-from TerminalPlayer import TerminalPlayer
+from player_terminal import TerminalPlayer
 
 SYMBOL = "X"
 BOARD_EMPTY = list((15*15) * " ")

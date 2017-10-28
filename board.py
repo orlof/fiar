@@ -21,6 +21,9 @@ class Cell(object):
         self.y = y
         self.symbol = "-"
 
+    def is_free(self):
+        return True if self.symbol == "-" else False
+
 
 class Board(object):
     def __init__(self):
@@ -32,17 +35,17 @@ class Board(object):
             for x in range(0, X_DIMENSION):
                 self.__cells.append(Cell(x, y))
 
-    def get_board(self):
-        return "".join([cell.symbol for cell in self.__cells])
+    def get_free_cells(self):
+        return [cell for cell in self.__cells if cell.is_free()]
 
-    def __find_cell(self, x, y):
+    def find_cell(self, x, y):
         for cell in self.__cells:
             if cell.x == x and cell.y == y:
                 return cell
 
-    def update(self, coordinate, symbol):
-        cell = self.__find_cell(coordinate[0], coordinate[1])
-        cell.symbol = symbol
+    @staticmethod
+    def get_board_range():
+        return X_DIMENSION * Y_DIMENSION
 
     def check_win_conditions(self, symbol):
         for y in xrange(15):
@@ -60,7 +63,7 @@ class Board(object):
         if not (0 <= (x + 5*dx) <= 15) or not (0 <= (y + 5*dy) <= 15):
             return False
         for d in xrange(0, 5):
-            if self.__find_cell(y+d*dy, x + d*dx).symbol != symbol:
+            if self.find_cell(y+d*dy, x + d*dx).symbol != symbol:
                 return False
         return True
 
@@ -71,3 +74,17 @@ class Board(object):
             printout += cell.symbol
             printout += print_line_change(cell)
         return printout
+
+    def __iter__(self):
+        return iter(self.__cells)
+
+    def __getitem__(self, coordinate):
+        index = coordinate[0] + (coordinate[1] * Y_DIMENSION)
+        return self.__cells[index]
+
+    def __eq__(self, other):
+        for y in xrange(Y_DIMENSION):
+            for x in xrange(X_DIMENSION):
+                if (self[(x, y)].symbol != other[(x, y)].symbol):
+                    return False
+        return True

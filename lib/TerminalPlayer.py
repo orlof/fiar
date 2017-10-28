@@ -2,13 +2,13 @@ from player import Player
 
 
 class TerminalPlayer(Player):
-    def get_next_move(self, player, board):
-        free = self.get_free_positions(board)
+    def next_move(self, symbol, board):
+        free = board.get_free_cells()
         if not free:
             raise ValueError("Board is full")
 
         while True:
-            print "Give 'x,y' for next '%s': " % player
+            print "Give 'x,y' for next '%s': " % symbol
             pos = raw_input("> ")
             x, y = self.parse_pos(pos)
             if (x, y) in free:

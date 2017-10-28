@@ -31,8 +31,8 @@ class Engine(object):
         print self.__board
         while self.__running:
             player, symbol = self._get_player()
-            move = player.get_next_move(symbol, self.__board.get_board())
-            self.__board.update(move, symbol)
+            cell = player.next_move(symbol, self.__board)
+            cell.symbol = symbol
             print self.__board
             if self.__board.check_win_conditions(symbol):
                 print "Winner: %s at round: %d" % (symbol, self.__round)

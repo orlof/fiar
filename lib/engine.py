@@ -1,4 +1,5 @@
 from player_random import RandomPlayer
+from player_matti_basic_ai import PlayerMattiBasicAI
 
 from board import Board
 
@@ -40,7 +41,7 @@ class Engine(object):
 
 
 def main():
-    player1 = RandomPlayer()
+    player1 = PlayerMattiBasicAI()
     player2 = RandomPlayer()
     engine = Engine(player1, player2)
     engine.run()

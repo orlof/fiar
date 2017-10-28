@@ -48,10 +48,11 @@ class Board(object):
         for y in xrange(15):
             for x in xrange(15):
                 if (self.__check(symbol, x, y, 0, -1) or
-                        self.__check(symbol, x, y, 1, -1) or
                         self.__check(symbol, x, y, 0,  1) or
                         self.__check(symbol, x, y, 1,  0) or
-                        self.__check(symbol, x, y, 1,  1)):
+                        self.__check(symbol, x, y, 1,  1) or
+                        self.__check(symbol, x, y, 1, -1) or
+                        self.__check(symbol, x, y, -1, 1)):
                     return True
         return False
 

@@ -42,6 +42,5 @@ def main():
     engine = Engine(player1, player2)
     engine.run()
 
-
 if __name__ == '__main__':
     main()

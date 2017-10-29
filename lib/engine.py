@@ -1,11 +1,7 @@
-from RandomPlayer import RandomPlayer
-from TerminalPlayer import TerminalPlayer
+from player_random import RandomPlayer
+from player_terminal import TerminalPlayer
 
-from board import Board
-
-
-EVEN = "x"
-ODD = "o"
+from board import Board, EVEN, ODD
 
 
 def is_even(value):
@@ -21,21 +17,21 @@ class Engine(object):
 
     def _get_player(self):
         if is_even(self.__round):
-            return (self.__players[0], EVEN)
+            return self.__players[0], EVEN
         else:
-            return (self.__players[1], ODD)
+            return self.__players[1], ODD
 
     def run(self):
-        print "Starting"
+        print("Starting")
         self.__running = True
-        print self.__board
+        print(self.__board)
         while self.__running:
             player, symbol = self._get_player()
             cell = player.next_move(symbol, self.__board)
             cell.symbol = symbol
-            print self.__board
-            if self.__board.check_win_conditions(symbol):
-                print "Winner: %s at round: %d" % (symbol, self.__round)
+            print(self.__board)
+            if self.__board.check_win_conditions():
+                print("Winner: %s at round: %d" % (symbol, self.__round))
                 self.__running = False
             self.__round += 1
 
@@ -45,6 +41,7 @@ def main():
     player2 = RandomPlayer()
     engine = Engine(player1, player2)
     engine.run()
+
 
 if __name__ == '__main__':
     main()

@@ -1,10 +1,6 @@
 import unittest
 
-from TerminalPlayer import TerminalPlayer
-
-SYMBOL = "X"
-BOARD_EMPTY = list((15*15) * " ")
-BOARD_FULL = list((15*15) * SYMBOL)
+from player_terminal import TerminalPlayer
 
 
 class TestTerminalPlayer(unittest.TestCase):
@@ -22,6 +18,7 @@ class TestTerminalPlayer(unittest.TestCase):
 
     def test_parse_single_token(self):
         self.assertEqual(self.player.parse_pos("1"), None)
+
 
 if __name__ == '__main__':
     unittest.main()

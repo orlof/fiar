@@ -1,7 +1,7 @@
 import unittest
 
 from board import Board
-from RandomPlayer import RandomPlayer
+from player_random import RandomPlayer
 
 SYMBOL = "X"
 
@@ -22,7 +22,7 @@ class TestRandomPlayer(unittest.TestCase):
 
     def test_move(self):
         board = Board()
-        for r in xrange(board.get_board_range()):
+        for r in range(board.get_board_range()):
             cell = self.player.next_move(SYMBOL, board)
             self.assertTrue(0 <= cell.x <= 15 and 0 <= cell.y <= 15)
             cell.symbol = SYMBOL
@@ -31,10 +31,8 @@ class TestRandomPlayer(unittest.TestCase):
         self.assertEqual(board, full_board)
 
     def test_board_full(self):
-        with self.assertRaises(ValueError) as context:
+        with self.assertRaises(ValueError):
             self.player.next_move(SYMBOL, get_full_board(SYMBOL))
-
-        self.assertTrue('Board is full' in context.exception)
 
 
 if __name__ == '__main__':

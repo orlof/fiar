@@ -8,13 +8,13 @@ class TerminalPlayer(Player):
             raise ValueError("Board is full")
 
         while True:
-            print "Give 'x,y' for next '%s': " % symbol
-            pos = raw_input("> ")
+            print("Give 'x,y' for next '%s': " % symbol)
+            pos = input("> ")
             x, y = self.parse_pos(pos)
             if (x, y) in free:
                 return x, y
 
-            print "Illegal position"
+            print("Illegal position")
 
     @staticmethod
     def parse_pos(token):

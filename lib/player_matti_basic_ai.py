@@ -22,7 +22,7 @@ def location(cell):
 
 def find_cells_in_row(board, cell, symbol, dx, dy):
     cells = 0
-    for d in xrange(1, 5):
+    for d in range(1, 5):
         if (not (0 <= (cell.x + d*dx) <= 14) or
                 not (0 <= (cell.y + d*dy) <= 14)):
             return cells

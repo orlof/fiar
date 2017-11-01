@@ -20,6 +20,7 @@ DIRECTIONS = (
     Direction(-1, -1)
 )
 
+
 def print_y_column(cell):
     if cell.x == 0:
         return "|"
@@ -41,6 +42,13 @@ class Cell(object):
 
     def is_free(self):
         return self.symbol == "-"
+
+    def __eq__(self, other):
+        return (self.x == other.x and
+                self.y == other.y)
+
+    def __str__(self):
+        return "Cell: (%d, %d) %s" % (self.x, self.y, self.symbol)
 
 
 class Board(object):
@@ -74,7 +82,9 @@ class Board(object):
                 symbol = self.cell_in(x, y).symbol
 
                 if symbol != EMPTY and \
-                        any(self.__check(symbol, x, y, direction.dx, direction.dy) for direction in DIRECTIONS):
+                        any(self.__check(
+                            symbol, x, y, direction.dx, direction.dy)
+                            for direction in DIRECTIONS):
                     return symbol
 
         return None

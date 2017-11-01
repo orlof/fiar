@@ -1,4 +1,5 @@
 from player import Player
+from board import Cell
 
 
 class TerminalPlayer(Player):
@@ -10,18 +11,18 @@ class TerminalPlayer(Player):
         while True:
             print("Give 'x,y' for next '%s': " % symbol)
             pos = input("> ")
-            x, y = self.parse_pos(pos)
-            if (x, y) in free:
-                return x, y
+            cell = self.parse_pos(pos)
+            for free_cell in free:
+                if cell == free_cell:
+                    return free_cell
 
             print("Illegal position")
 
     @staticmethod
     def parse_pos(token):
         try:
-            pos = tuple(map(int, token.split(",")))
-            if len(pos) == 2:
-                return pos
+            cell = Cell(token[0], token[1])
+            return cell
         except ValueError:
             pass
 

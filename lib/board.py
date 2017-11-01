@@ -9,16 +9,17 @@ X_DIMENSION = 15
 Y_DIMENSION = 15
 
 Direction = collections.namedtuple("Direction", ['dx', 'dy'])
-DIRECTIONS = (
-    Direction(0, -1),
-    Direction(1, -1),
-    Direction(1, 0),
-    Direction(1, 1),
-    Direction(0, 1),
-    Direction(-1, 1),
-    Direction(-1, 0),
-    Direction(-1, -1)
-)
+N = Direction(0, -1)
+NE = Direction(1, -1)
+E = Direction(1, 0)
+SE = Direction(1, 1)
+S = Direction(0, 1)
+SW = Direction(-1, 1)
+W = Direction(-1, 0)
+NW = Direction(-1, -1)
+
+DIRECTIONS = (N, NE, E, SE, S, SW, W, NW)
+
 
 def print_y_column(cell):
     if cell.x == 0:

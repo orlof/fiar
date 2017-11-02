@@ -6,7 +6,7 @@ import os
 from keras.layers import Dense, Flatten, Conv2D
 from keras.models import Sequential
 
-from board import EMPTY
+from board import EMPTY, X_DIMENSION, Y_DIMENSION
 from player import Player
 
 
@@ -14,12 +14,11 @@ class AiAntti(Player):
     def __init__(self):
         super().__init__()
         self.history = []
-        self.my_symbol = None
         self.model = None
 
     def start_game(self, my_symbol):
         self.my_symbol = my_symbol
-        self.init_model("ai_antti.h5")
+        self.init_model("ai_antti_%s.h5" % my_symbol)
 
     def end_game(self, is_winner, board):
         x_train = numpy.array(self.history).astype('float32')
@@ -30,11 +29,14 @@ class AiAntti(Player):
             y_train = [0.0] * len(self.history)
         y_train = numpy.array(y_train).astype('float32')
 
-        self.model.fit(x=x_train, y=y_train)
+        self.model.fit(x=x_train, y=y_train, batch_size=1)
 
-        self.model.save_weights("ai_antti.h5")
+        self.model.save_weights("ai_antti_%s.h5" % self.my_symbol)
 
     def next_move(self, board):
+        if board.is_empty():
+            return board.cell_in(X_DIMENSION / 2, Y_DIMENSION / 2)
+
         self.history.append(self._get_board_as_tf_input(board))
 
         # predict winning chance for each possible position
@@ -42,8 +44,9 @@ class AiAntti(Player):
         free_cells = board.get_free_cells()
         for cell in free_cells:
             cell.symbol = self.my_symbol
-            x = self._get_board_as_tf_input(board)
-            probs.append(self.model.predict(x))
+            x = [self._get_board_as_tf_input(board)]
+            x = numpy.array(x).astype('float32')
+            probs.append(self.model.predict(x, batch_size=1))
             cell.symbol = EMPTY
 
         return random.choices(free_cells, weights=probs, k=1)[0]
@@ -57,7 +60,7 @@ class AiAntti(Player):
                          input_shape=input_shape))
         model.add(Flatten())
         model.add(Dense(1000, activation='relu'))
-        model.add(Dense(1, activation='softmax'))
+        model.add(Dense(1, activation='sigmoid'))
 
         model.compile(loss=keras.losses.binary_crossentropy,
                       optimizer=keras.optimizers.Adam())
@@ -77,7 +80,7 @@ class AiAntti(Player):
             row = []
             for x in range(15):
                 symbol = board.cell_in(x, y).symbol
-                if symbol == board.EMPTY:
+                if symbol == EMPTY:
                     row.append([0.0, 0.0])
                 else:
                     if symbol == self.my_symbol:

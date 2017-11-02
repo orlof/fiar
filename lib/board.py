@@ -73,6 +73,9 @@ class Board(object):
 
         return None
 
+    def is_empty(self):
+        return len(self.get_free_cells()) == self.get_board_range()
+
     @staticmethod
     def get_board_range():
         return X_DIMENSION * Y_DIMENSION

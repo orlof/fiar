@@ -1,5 +1,7 @@
+from ai_antti import AiAntti
 from player_random import RandomPlayer
 from player_matti_basic_ai import PlayerMattiBasicAI
+import argparse
 
 from board import Board, EVEN, ODD
 
@@ -39,16 +41,30 @@ class Engine(object):
                 self.__running = False
             self.__round += 1
 
-        self.__players[0].end_game(self.__board, symbol == EVEN)
-        self.__players[1].end_game(self.__board, symbol == ODD)
+        self.__players[0].end_game(symbol == EVEN, self.__board)
+        self.__players[1].end_game(symbol == ODD, self.__board)
+
+        return self.__round, symbol
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--rounds", default=1, help="how many rounds to play", type=int)
+    return parser.parse_args()
 
 
 def main():
-    player1 = RandomPlayer()
-    player2 = PlayerMattiBasicAI()
-    engine = Engine(player1, player2)
-    engine.run()
+    args = parse_arguments()
 
+    stats = {EVEN: 0, ODD: 0}
+    for r in range(args.rounds):
+        player1 = RandomPlayer()
+        player2 = RandomPlayer()
+        engine = Engine(player1, player2)
+        game_len, winner = engine.run()
+        stats[winner] = stats[winner]+1
+
+    print(stats)
 
 if __name__ == '__main__':
     main()

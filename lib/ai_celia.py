@@ -52,8 +52,10 @@ class AiCelia(Player):
             probs.append(float(self.model.predict(x, batch_size=1)))
             cell.symbol = EMPTY
 
-        print("Win probability for %s is %f - %f - %f" % (self.my_symbol, min(probs), sum(probs)/len(probs), max(probs)))
         if DEBUG:
+            print("Win probability for %s is %f - %f - %f" % (
+
+            self.my_symbol, min(probs), sum(probs) / len(probs), max(probs)))
             if len(free_cells) % 25 == 0:
                 l = sorted([(p, c) for c, p in zip(free_cells, probs)], reverse=True)
                 print("Best option: %f %s" % l[0])

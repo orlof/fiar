@@ -48,6 +48,9 @@ class Cell(object):
         return (self.x == other.x and
                 self.y == other.y)
 
+    def __lt__(self, other):
+        return self.y < other.y or self.x < other.x
+
     def __str__(self):
         return "Cell: (%d, %d) %s" % (self.x, self.y, self.symbol)
 

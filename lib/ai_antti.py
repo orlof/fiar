@@ -10,7 +10,7 @@ from board import EMPTY, X_DIMENSION, Y_DIMENSION
 from player import Player
 
 
-DEBUG = False
+DEBUG = True
 
 
 class AiAntti(Player):
@@ -20,7 +20,7 @@ class AiAntti(Player):
         self.model = None
 
     def start_game(self, my_symbol):
-        self.my_symbol = my_symbol
+        super().start_game(my_symbol)
         self.filename = "ai_antti.h5"
         self.init_model()
 
@@ -74,16 +74,12 @@ class AiAntti(Player):
                     c.symbol = EMPTY
                 input("Press Return")
 
-
         return random.choices(free_cells, weights=probs, k=1)[0]
 
     def init_model(self):
-        input_shape = (15, 15, 2)
-
         model = Sequential()
         model.add(Conv2D(16, kernel_size=(5, 5), strides=(1, 1),
-                         activation='relu',
-                         input_shape=input_shape))
+                         activation='relu', input_shape=(15, 15, 2)))
         model.add(Flatten())
         model.add(Dense(1000, activation='relu'))
         model.add(Dense(1, activation='sigmoid'))

@@ -1,9 +1,13 @@
 from ai_antti import AiAntti
+from ai_berit import AiBerit
 from player_random import RandomPlayer
 from player_matti_basic_ai import PlayerMattiBasicAI
 import argparse
 
 from board import Board, EVEN, ODD, EMPTY
+
+
+args = None
 
 
 def is_even(value):
@@ -29,13 +33,19 @@ class Engine(object):
         self.__players[0].start_game(EVEN)
         self.__players[1].start_game(ODD)
 
+        if args.view:
+            print(self.__board)
+
         self.__running = True
-        print(self.__board)
+
         while self.__running:
             player, symbol = self._get_player()
             cell = player.next_move(self.__board)
             cell.symbol = symbol
-            print(self.__board)
+
+            if args.view:
+                print(self.__board)
+
             if self.__board.check_win_conditions():
                 print("Winner: %s at round: %d" % (symbol, self.__round))
                 self.__running = False
@@ -46,6 +56,9 @@ class Engine(object):
                 symbol = EMPTY
                 self.__running = False
 
+        if not args.view:
+            print(self.__board)
+
         self.__players[0].end_game(symbol == EVEN, self.__board)
         self.__players[1].end_game(symbol == ODD, self.__board)
 
@@ -55,16 +68,20 @@ class Engine(object):
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--rounds", default=1, help="how many rounds to play", type=int)
-    return parser.parse_args()
+    parser.add_argument('--no-view', dest='view', action='store_false')
+    parser.set_defaults(view=True)
+
+    global args
+    args = parser.parse_args()
 
 
 def main():
-    args = parse_arguments()
+    parse_arguments()
 
     stats = {EVEN: 0, ODD: 0}
     for r in range(args.rounds):
-        player1 = AiAntti()
-        player2 = AiAntti()
+        player1 = AiBerit()
+        player2 = AiBerit()
         engine = Engine(player1, player2)
         game_len, winner = engine.run()
         stats[winner] = stats[winner]+1

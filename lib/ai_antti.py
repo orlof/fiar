@@ -10,6 +10,9 @@ from board import EMPTY, X_DIMENSION, Y_DIMENSION
 from player import Player
 
 
+DEBUG = False
+
+
 class AiAntti(Player):
     def __init__(self):
         super().__init__()
@@ -59,14 +62,20 @@ class AiAntti(Player):
             cell.symbol = EMPTY
 
         print("Win probability for %s is %f - %f - %f" % (self.my_symbol, min(probs), sum(probs)/len(probs), max(probs)))
-        while True:
-            try:
-                return random.choices(free_cells, weights=probs, k=1)[0]
-            except IndexError:
-                print("Terrible IndexError occurred due to python3 random module bug")
-                for f, p in zip(free_cells, probs):
-                    print("%s: %s" % (f, p))
-                print("...Retrying")
+        if DEBUG:
+            if len(free_cells) % 25 == 0:
+                l = sorted([(p, c) for c, p in zip(free_cells, probs)], reverse=True)
+                print("Best option: %f %s" % l[0])
+                print("Worst option: %f %s" % l[-1])
+                for p, c in l[:5]:
+                    c.symbol = "B"
+                print(board)
+                for p, c in l[:5]:
+                    c.symbol = EMPTY
+                input("Press Return")
+
+
+        return random.choices(free_cells, weights=probs, k=1)[0]
 
     def init_model(self):
         input_shape = (15, 15, 2)

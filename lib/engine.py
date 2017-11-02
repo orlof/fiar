@@ -31,7 +31,7 @@ class Engine(object):
         print(self.__board)
         while self.__running:
             player, symbol = self._get_player()
-            cell = player.next_move(symbol, self.__board)
+            cell = player.next_move(self.__board)
             cell.symbol = symbol
             print(self.__board)
             if self.__board.check_win_conditions():
@@ -39,8 +39,8 @@ class Engine(object):
                 self.__running = False
             self.__round += 1
 
-        self.__players[0].end_game(symbol == EVEN)
-        self.__players[1].end_game(symbol == ODD)
+        self.__players[0].end_game(self.__board, symbol == EVEN)
+        self.__players[1].end_game(self.__board, symbol == ODD)
 
 
 def main():

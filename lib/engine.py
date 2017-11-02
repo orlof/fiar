@@ -1,5 +1,6 @@
 from ai_antti import AiAntti
 from ai_berit import AiBerit
+from ai_celia import AiCelia
 from player_random import RandomPlayer
 from player_matti_basic_ai import PlayerMattiBasicAI
 import argparse
@@ -80,8 +81,8 @@ def main():
 
     stats = {EVEN: 0, ODD: 0}
     for r in range(args.rounds):
-        player1 = AiBerit()
-        player2 = AiBerit()
+        player1 = RandomPlayer()
+        player2 = AiCelia()
         engine = Engine(player1, player2)
         game_len, winner = engine.run()
         stats[winner] = stats[winner]+1

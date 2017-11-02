@@ -3,7 +3,7 @@ from player_random import RandomPlayer
 from player_matti_basic_ai import PlayerMattiBasicAI
 import argparse
 
-from board import Board, EVEN, ODD
+from board import Board, EVEN, ODD, EMPTY
 
 
 def is_even(value):
@@ -39,7 +39,12 @@ class Engine(object):
             if self.__board.check_win_conditions():
                 print("Winner: %s at round: %d" % (symbol, self.__round))
                 self.__running = False
+
             self.__round += 1
+            if self.__round == self.__board.get_board_range():
+                print("Draw at round: %d" % self.__round)
+                symbol = EMPTY
+                self.__running = False
 
         self.__players[0].end_game(symbol == EVEN, self.__board)
         self.__players[1].end_game(symbol == ODD, self.__board)
@@ -58,13 +63,14 @@ def main():
 
     stats = {EVEN: 0, ODD: 0}
     for r in range(args.rounds):
-        player1 = RandomPlayer()
-        player2 = RandomPlayer()
+        player1 = AiAntti()
+        player2 = AiAntti()
         engine = Engine(player1, player2)
         game_len, winner = engine.run()
         stats[winner] = stats[winner]+1
 
     print(stats)
+
 
 if __name__ == '__main__':
     main()

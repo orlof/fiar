@@ -66,7 +66,7 @@ class Board(object):
         return [cell for cell in self.__cells if cell.is_free()]
 
     def cell_in(self, x, y):
-        if 0 <= x <= X_DIMENSION and 0 <= y <= Y_DIMENSION:
+        if 0 <= x < X_DIMENSION and 0 <= y < Y_DIMENSION:
             for cell in self.__cells:
                 if cell.x == x and cell.y == y:
                     return cell

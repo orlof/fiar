@@ -18,24 +18,33 @@ class AiAntti(Player):
 
     def start_game(self, my_symbol):
         self.my_symbol = my_symbol
-        self.init_model("ai_antti_%s.h5" % my_symbol)
+        self.filename = "ai_antti.h5"
+        self.init_model()
 
     def end_game(self, is_winner, board):
-        x_train = numpy.array(self.history).astype('float32')
+        train_history = 10
+        # train_history = len(self.history)
+
+        x_train = numpy.array(self.history[-train_history:]).astype('float32')
 
         if is_winner:
-            y_train = [1.0] * len(self.history)
+            y_train = [1.0] * train_history
         else:
-            y_train = [0.0] * len(self.history)
+            y_train = [0.0] * train_history
         y_train = numpy.array(y_train).astype('float32')
 
-        self.model.fit(x=x_train, y=y_train, batch_size=1)
+        if os.path.exists(self.filename):
+            self.model.load_weights(self.filename)
 
-        self.model.save_weights("ai_antti_%s.h5" % self.my_symbol)
+        print("Training to: %r" % y_train)
+
+        self.model.fit(x=x_train, y=y_train, epochs=2, batch_size=1)
+
+        self.model.save_weights(self.filename)
 
     def next_move(self, board):
         if board.is_empty():
-            return board.cell_in(X_DIMENSION / 2, Y_DIMENSION / 2)
+            return board.cell_in(X_DIMENSION // 2, Y_DIMENSION // 2)
 
         self.history.append(self._get_board_as_tf_input(board))
 
@@ -46,16 +55,24 @@ class AiAntti(Player):
             cell.symbol = self.my_symbol
             x = [self._get_board_as_tf_input(board)]
             x = numpy.array(x).astype('float32')
-            probs.append(self.model.predict(x, batch_size=1))
+            probs.append(float(self.model.predict(x, batch_size=1)))
             cell.symbol = EMPTY
 
-        return random.choices(free_cells, weights=probs, k=1)[0]
+        print("Win probability for %s is %f - %f - %f" % (self.my_symbol, min(probs), sum(probs)/len(probs), max(probs)))
+        while True:
+            try:
+                return random.choices(free_cells, weights=probs, k=1)[0]
+            except IndexError:
+                print("Terrible IndexError occurred due to python3 random module bug")
+                for f, p in zip(free_cells, probs):
+                    print("%s: %s" % (f, p))
+                print("...Retrying")
 
-    def init_model(self, filename):
+    def init_model(self):
         input_shape = (15, 15, 2)
 
         model = Sequential()
-        model.add(Conv2D(32, kernel_size=(5, 5), strides=(1, 1),
+        model.add(Conv2D(16, kernel_size=(5, 5), strides=(1, 1),
                          activation='relu',
                          input_shape=input_shape))
         model.add(Flatten())
@@ -65,8 +82,8 @@ class AiAntti(Player):
         model.compile(loss=keras.losses.binary_crossentropy,
                       optimizer=keras.optimizers.Adam())
 
-        if os.path.exists(filename):
-            model.load_weights(filename)
+        if os.path.exists(self.filename):
+            model.load_weights(self.filename)
 
         self.model = model
 

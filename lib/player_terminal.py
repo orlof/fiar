@@ -3,13 +3,13 @@ from board import Cell
 
 
 class TerminalPlayer(Player):
-    def next_move(self, symbol, board):
+    def next_move(self, board):
         free = board.get_free_cells()
         if not free:
             raise ValueError("Board is full")
 
         while True:
-            print("Give 'x,y' for next '%s': " % symbol)
+            print("Give 'x,y' for next '%s': " % self.my_symbol)
             pos = input("> ")
             cell = self.parse_pos(pos)
             for free_cell in free:

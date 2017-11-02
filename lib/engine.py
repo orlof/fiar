@@ -23,6 +23,10 @@ class Engine(object):
 
     def run(self):
         print("Starting")
+
+        self.__players[0].start_game(EVEN)
+        self.__players[1].start_game(ODD)
+
         self.__running = True
         print(self.__board)
         while self.__running:
@@ -35,12 +39,16 @@ class Engine(object):
                 self.__running = False
             self.__round += 1
 
+        self.__players[0].end_game(symbol == EVEN)
+        self.__players[1].end_game(symbol == ODD)
+
 
 def main():
     player1 = RandomPlayer()
     player2 = PlayerMattiBasicAI()
     engine = Engine(player1, player2)
     engine.run()
+
 
 if __name__ == '__main__':
     main()

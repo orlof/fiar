@@ -9,16 +9,23 @@ from player import Player
 
 
 class AiAntti(Player):
-    def __init__(self, my_symbol=None):
+    def __init__(self):
         super().__init__()
         self.history = []
+        self.my_symbol = None
+
+    def init_game(self, my_symbol):
         self.my_symbol = my_symbol
+        # load nn from file
 
-    def next_move(self, player, board):
-        if not self.my_symbol:
-            self.my_symbol = player
+    def end_game(self, winner):
+        # train nn
+        # store nn to file
 
-
+    def next_move(self, board):
+        # store board to history
+        # predict winning chance for each possible position
+        # choose move with weighted random
 
     def _learn(self, is_winner):
         x_train = numpy.array(self.history).astype('float32')
@@ -45,6 +52,10 @@ class AiAntti(Player):
 
 
     def _get_board_as_tf_input(self, board):
+        # return 3 dimensional python list:
+        # board = [row, row..]
+        # row = [cell, cell...]
+        # cell = [x_channel, o_channel]
         main = []
         for y in range(15):
             row = []
@@ -59,7 +70,7 @@ class AiAntti(Player):
                         row.append([0.0, 1.0])
             main.append(row)
 
-        return numpy.array(main).astype('float32')
+        return main
 
 
 

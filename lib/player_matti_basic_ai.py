@@ -100,6 +100,7 @@ class DefenceWeightCalculator(AdjancentCellsCalculator):
 
 class PlayerMattiBasicAI(Player):
     def __init__(self):
+        super().__init__()
         self._locationWeightCalc = LocationWeightCalculator()
         self._attackWeightCalc = AttackWeightCalculator()
         self._defenceWeightCalc = DefenceWeightCalculator()
@@ -115,12 +116,12 @@ class PlayerMattiBasicAI(Player):
             weighted_cells.append(WeightedCell(cell, weight))
         return weighted_cells
 
-    def next_move(self, symbol, board):
+    def next_move(self, board):
         free_cells = board.get_free_cells()
         if not free_cells:
             raise ValueError("Board is full")
         weighted_cells = self.calculate_weight_for_cells(
-                board, free_cells, symbol)
+                board, free_cells, self.my_symbol)
         sorted_cells = sorted(weighted_cells, key=lambda x: x.weight,
                               reverse=True)
         return sorted_cells[0].cell

@@ -38,6 +38,7 @@ class AiBerit(RandomPlayer):
         model.fit(x=x_train, y=y_train, epochs=2, batch_size=1)
 
         model.save_weights(self.filename)
+        keras.backend.clear_session()
 
     def init_model(self):
         model = Sequential()

@@ -81,10 +81,10 @@ def main():
 
     stats = {EVEN: 0, ODD: 0}
     for r in range(args.rounds):
-        # player1 = AiBerit()
-        # player2 = AiBerit()
-        player1 = RandomPlayer()
-        player2 = AiCelia()
+        player1 = AiBerit()
+        player2 = AiBerit()
+        # player1 = RandomPlayer()
+        # player2 = AiCelia()
         engine = Engine(player1, player2)
         game_len, winner = engine.run()
         stats[winner] = stats[winner]+1

@@ -25,6 +25,7 @@ class AiCelia(Player):
         self.save_result_for_player(board, self.my_symbol, is_winner)
         self.save_result_for_player(board, other_symbol(self.my_symbol),
                                     not is_winner)
+        keras.backend.clear_session()
 
     def init_model(self):
         model = Sequential()

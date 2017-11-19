@@ -35,4 +35,3 @@ class Player(object):
         model.fit(x=x_train, y=y_train, epochs=2, batch_size=1)
 
         model.save_weights(self.filename)
-        keras.backend.clear_session()

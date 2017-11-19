@@ -21,6 +21,12 @@ NW = Direction(-1, -1)
 DIRECTIONS = (N, NE, E, SE, S, SW, W, NW)
 
 
+def other_symbol(symbol):
+    if symbol == EVEN:
+        return ODD
+    else:
+        return EVEN
+
 
 def print_y_column(cell):
     if cell.x == 0:

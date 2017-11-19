@@ -1,12 +1,11 @@
-import random
-
 import keras
 import numpy
+
 import os
 from keras.layers import Dense, Flatten, Conv2D
 from keras.models import Sequential
 
-from board import EMPTY, X_DIMENSION, Y_DIMENSION
+from board import EMPTY, X_DIMENSION, Y_DIMENSION, other_symbol
 from player import Player
 
 
@@ -19,8 +18,13 @@ class AiCelia(Player):
 
     def start_game(self, my_symbol):
         super().start_game(my_symbol)
-        self.filename = "ai_berit.h5"
+        self.filename = "ai_celia.h5"
         self.model = self.init_model()
+
+    def end_game(self, is_winner, board):
+        self.save_result_for_player(board, self.my_symbol, is_winner)
+        self.save_result_for_player(board, other_symbol(self.my_symbol),
+                                    not is_winner)
 
     def init_model(self):
         model = Sequential()
@@ -47,17 +51,18 @@ class AiCelia(Player):
         free_cells = board.get_free_cells()
         for cell in free_cells:
             cell.symbol = self.my_symbol
-            x = [self._get_board_as_tf_input(board)]
+            x = [self._get_board_as_tf_input(board, self.my_symbol)]
             x = numpy.array(x).astype('float32')
             probs.append(float(self.model.predict(x, batch_size=1)))
             cell.symbol = EMPTY
 
         if DEBUG:
             print("Win probability for %s is %f - %f - %f" % (
-
-            self.my_symbol, min(probs), sum(probs) / len(probs), max(probs)))
+                self.my_symbol, min(probs), sum(probs) / len(probs),
+                max(probs)))
             if len(free_cells) % 25 == 0:
-                l = sorted([(p, c) for c, p in zip(free_cells, probs)], reverse=True)
+                l = sorted([(p, c) for c, p in zip(free_cells, probs)],
+                           reverse=True)
                 print("Best option: %f %s" % l[0])
                 print("Worst option: %f %s" % l[-1])
                 for p, c in l[:5]:
@@ -69,7 +74,7 @@ class AiCelia(Player):
 
         return max([(p, c) for p, c in zip(probs, free_cells)])[1]
 
-    def _get_board_as_tf_input(self, board):
+    def _get_board_as_tf_input(self, board, my_symbol):
         # return 3 dimensional python list:
         # board = [row, row..]
         # row = [cell, cell...]
@@ -82,7 +87,7 @@ class AiCelia(Player):
                 if symbol == EMPTY:
                     row.append([0.0, 0.0])
                 else:
-                    if symbol == self.my_symbol:
+                    if symbol == my_symbol:
                         row.append([1.0, 0.0])
                     else:
                         row.append([0.0, 1.0])

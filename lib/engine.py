@@ -1,8 +1,8 @@
-from ai_antti import AiAntti
-from ai_berit import AiBerit
+# from ai_antti import AiAntti
+# from ai_berit import AiBerit
 from ai_celia import AiCelia
-from player_random import RandomPlayer
-from player_matti_basic_ai import PlayerMattiBasicAI
+# from player_random import RandomPlayer
+from basic_computer_player import PlayerBasicComputer
 import argparse
 
 from board import Board, EVEN, ODD, EMPTY
@@ -68,7 +68,8 @@ class Engine(object):
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--rounds", default=1, help="how many rounds to play", type=int)
+    parser.add_argument("--rounds", default=1,
+                        help="how many rounds to play", type=int)
     parser.add_argument('--no-view', dest='view', action='store_false')
     parser.set_defaults(view=True)
 
@@ -81,7 +82,7 @@ def main():
 
     stats = {EVEN: 0, ODD: 0}
     for r in range(args.rounds):
-        player1 = PlayerMattiBasicAI()
+        player1 = PlayerBasicComputer()
         player2 = AiCelia()
         # player1 = RandomPlayer()
         # player2 = AiCelia()

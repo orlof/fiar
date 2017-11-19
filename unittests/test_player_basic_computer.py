@@ -1,11 +1,11 @@
 import unittest
-from player_matti_basic_ai import PlayerMattiBasicAI
+from basic_computer_player import PlayerBasicComputer
 from board import Board, EVEN
 
 
-class TestMattiBasicAI(unittest.TestCase):
+class TestBasicComputerPlayer(unittest.TestCase):
     def setUp(self):
-        self.sut = PlayerMattiBasicAI()
+        self.sut = PlayerBasicComputer()
         self.board = Board()
 
     def test_first_move(self):

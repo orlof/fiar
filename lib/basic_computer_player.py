@@ -98,7 +98,7 @@ class DefenceWeightCalculator(AdjancentCellsCalculator):
         return cells * multiplier
 
 
-class PlayerMattiBasicAI(Player):
+class PlayerBasicComputer(Player):
     def __init__(self):
         super().__init__()
         self._locationWeightCalc = LocationWeightCalculator()

@@ -1,3 +1,3 @@
 # Five In A Row
 
-# Python3 AI player
+Python3 AI player

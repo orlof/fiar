@@ -16,6 +16,8 @@ class Player(object):
     def end_game(self, is_winner, board):
         pass
 
+
+class AIPlayer(Player):
     def save_result_for_player(self, board, symbol, is_winner):
         board_matrix = [self._get_board_as_tf_input(board, symbol)]
         x_train = numpy.array(board_matrix).astype('float32')

@@ -6,13 +6,13 @@ from keras.layers import Dense, Flatten, Conv2D
 from keras.models import Sequential
 
 from board import EMPTY, X_DIMENSION, Y_DIMENSION, other_symbol
-from player import Player
+from player import AIPlayer
 
 
 DEBUG = False
 
 
-class AiCelia(Player):
+class AiCelia(AIPlayer):
     def __init__(self):
         super().__init__()
 
